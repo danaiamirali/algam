@@ -34,3 +34,6 @@ class Topics(BaseModel):
 
     def __add__(self, other):
         return Topics(topics=self.topics + other.topics) 
+
+    def pop(self, i: Optional[int] = None):
+        return self.topics.pop(i)
