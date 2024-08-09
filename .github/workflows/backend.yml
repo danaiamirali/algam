@@ -42,4 +42,5 @@ jobs:
           cd backend
           pip install -qr requirements.txt
           pip install -qr requirements-test.txt
+          python -m uvicorn main:app --reload
           pytest tests/topics/*.py
