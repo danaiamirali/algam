@@ -45,6 +45,7 @@ jobs:
 
       - name: Start FastAPI server
         run: |
+          cd backend
           nohup uvicorn main:app &
           sleep 5
 
