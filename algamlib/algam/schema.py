@@ -6,8 +6,12 @@ from pydantic import BaseModel, Field
 class Topic(BaseModel):
     """An individual topic and were it came from."""
 
-    name: str = Field(..., title="Topic", description="The name of the topic. E.g. 'Bitcoin price surge'")
-    source: str = Field(..., title="Source", description="The source of the topic. E.g. Google, Reddit, etc.")
+    name:                 str = Field(..., title="Topic", description="The name of the topic. E.g. 'Bitcoin price surge'")
+    source:               str = Field(..., title="Source", description="The source of the topic. E.g. Google, Reddit, etc.")
+    popularity: Optional[int] = Field(None, title="Popularity", description="The popularity of the topic. E.g. 1000")
+
+    def __str__(self):
+        return f"{self.name} --- with {self.popularity} popularity from {self.source}"
 
 class Topics(BaseModel):
     """A list of topics."""
