@@ -1,0 +1,45 @@
+# Workflow to test the algamlib package 
+name: CI - Backend
+
+on:
+  push:
+    branches:
+      - "**"
+  pull_request:
+    branches:
+      - "**"
+  workflow_dispatch:
+
+jobs:
+  installation:
+    runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+    steps:
+      - uses: actions/checkout@v3
+      - uses: actions/setup-python@v4
+        with:
+          python-version: 3.9
+
+      - name: Install dependencies
+        run: |
+          python -m pip install --upgrade pip
+          cd backend
+          pip install -qr requirements.txt
+  test_topics: # test the topics/ route
+    runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+    steps:
+      - uses: actions/checkout@v3
+      - uses: actions/setup-python@v4
+        with:
+          python-version: 3.9
+
+      - name: Run tests
+        run: |
+          python -m pip install --upgrade pip
+          cd backend
+          pip install -qr requirements.txt
+          pip install -qr requirements-test.txt
+          pytest tests/topics/*.py

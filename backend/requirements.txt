@@ -1,4 +1,4 @@
--e git+https://github.com/danaiamirali/algam.git@18608de2a7756ac6080cdcca411c95a6ea1de864#egg=algam&subdirectory=algamlib
+-e ../algamlib/
 annotated-types==0.7.0
 anyio==4.4.0
 cffi==1.17.0
