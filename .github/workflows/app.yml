@@ -24,6 +24,7 @@ jobs:
           # update the Node version to meet your needs
           node-version: 16
           cache: npm
+        working-directory: frontend/algam
       - name: Install Dependencies
         run: |
           cd frontend/algam
