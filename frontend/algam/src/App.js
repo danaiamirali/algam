@@ -4,12 +4,14 @@ import 'tippy.js/dist/tippy.css'; // Optional for tooltips
 
 function App() {
   const [words, setWords] = useState([]);
+  const fetchInterval = 5 * 60 * 1000; // Set the interval time in milliseconds (e.g., 5 minutes)
 
   useEffect(() => {
     // Function to fetch words data
     const fetchWords = async () => {
       try {
-        const response = await fetch('http://127.0.0.1:8000/topics/25');
+        console.log("Fetching topics...")
+        const response = await fetch('https://algam.onrender.com/topics/25');
         if (!response.ok) {
           throw new Error('Network response was not ok');
         }
@@ -25,8 +27,17 @@ function App() {
       }
     };
 
+    // Initial fetch when the component mounts
     fetchWords();
-  }, []); // The empty array ensures this effect only runs once when the component mounts
+
+    // Set up the interval to fetch data every X minutes
+    const intervalId = setInterval(() => {
+      fetchWords();
+    }, fetchInterval);
+
+    // Clear the interval when the component unmounts
+    return () => clearInterval(intervalId);
+  }, [fetchInterval]); // Dependency array includes fetchInterval to ensure it gets re-evaluated if changed
 
   const options = {
     colors: ['#FF6347', '#FFA500', '#32CD32', '#FFD700', '#FF4500', '#00FFFF'], // Tomato, Orange, LimeGreen, Gold, OrangeRed, Cyan
@@ -35,7 +46,6 @@ function App() {
     fontFamily: 'impact',
     fontSizes: [20, 60],
     fontStyle: 'normal',
-    // fontWeight: 'bold',
     padding: 1,
     rotations: 3,
     rotationAngles: [0, 90],
