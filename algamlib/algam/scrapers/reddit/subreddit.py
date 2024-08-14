@@ -9,7 +9,7 @@ import os
 
 load_dotenv()
 
-CLIENT_ID = os.getenv("REDDIT_CLIENT_ID")
+CLIENT_ID     = os.getenv("REDDIT_CLIENT_ID")
 CLIENT_SECRET = os.getenv("REDDIT_CLIENT_SECRET")
 
 class Subreddit():
@@ -29,7 +29,7 @@ class Subreddit():
         topics = self.subreddit.rising(limit=limit)
         return topics
 
-def get_topics(topic_type: str = "hot", subreddits: List[str] = None, weights: List[Union[float, int]] = None) -> List[Topic]:
+def get_topics(topic_type: str = "trending", subreddits: List[str] = None, weights: List[Union[float, int]] = None) -> List[Topic]:
     assert topic_type in ["hot", "trending"], f"Invalid type: {topic_type}"
 
     topics = []

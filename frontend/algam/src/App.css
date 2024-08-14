@@ -1,0 +1,12 @@
+/* App.css */
+body, html {
+  margin: 0;
+  padding: 0;
+  background-color: black; /* Sets the entire page background to black */
+  color: white; /* Sets the default text color to white for contrast */
+  height: 100%; /* Ensures the body takes full viewport height */
+}
+
+#root {
+  height: 100%;
+}

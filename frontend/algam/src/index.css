@@ -1,0 +1,46 @@
+/* General Body Styling */
+body {
+  font-family: 'Helvetica Neue', Arial, sans-serif; /* Common font style */
+  background-color: #f4f4f4; /* Light gray background */
+  color: #333; /* Dark text for readability */
+  margin: 0;
+  padding: 0;
+}
+
+/* Header Styling */
+header {
+  background-color: #ff6347; /* Tomato-like color for the header */
+  color: white;
+  padding: 10px 20px; /* Padding for spacing */
+  text-align: center; /* Centering the header text */
+}
+
+/* Main Content Area */
+main {
+  padding: 20px;
+  margin-top: 20px;
+}
+
+/* Cards for Articles */
+.article-card {
+  background-color: white; /* White background for the cards */
+  box-shadow: 0 2px 5px rgba(0,0,0,0.1); /* Subtle shadow for 3D effect */
+  margin-bottom: 20px; /* Space between cards */
+  padding: 20px;
+}
+
+/* Styling for Links */
+a {
+  color: #0077cc; /* A distinct blue for links */
+  text-decoration: none; /* No underline for a modern look */
+}
+
+a:hover {
+  text-decoration: underline; /* Underline on hover for accessibility */
+}
+
+/* Responsive Image Styling */
+img {
+  max-width: 100%; /* Responsive images */
+  height: auto;
+}
