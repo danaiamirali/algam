@@ -15,7 +15,7 @@ app.add_middleware(
 @app.get("/topics/{num_topics}")
 def get_topics(num_topics: int):
     try:
-        topics = get_social_media_topics("google", "reddit", weights=[0.8, 0.2], num_topics=num_topics)
+        topics = get_social_media_topics("google", num_topics=num_topics)
     except Exception as e:
         return {"error": str(e)}, 500
 
