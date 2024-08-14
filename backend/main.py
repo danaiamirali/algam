@@ -6,7 +6,7 @@ app = FastAPI()
 
 app.add_middleware(
     CORSMiddleware,
-    allow_origins=["https://algam.vercel.app/", "http://localhost:3000"],  # URL of the frontend app (including port if applicable)
+    allow_origins=["https://algam.vercel.app", "http://localhost:3000"],  # URL of the frontend app (including port if applicable)
     allow_credentials=True,
     allow_methods=["*"],  # Allows all methods
     allow_headers=["*"],  # Allows all headers
