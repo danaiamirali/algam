@@ -18,17 +18,29 @@ def compute_popularity(trend: str) -> int:
     for timeframe in ["now 1-H", "now 4-H"]:
         pytrend.build_payload(kw_list=[trend], timeframe=timeframe)
 
-        interest_over_time_df = pytrend.interest_over_time()
+        try:
+            interest_over_time_df = pytrend.interest_over_time()
+        except Exception as e:
+            raise Exception(f"Error while fetching interest over time of trend {trend}: {e}")
 
-        # TODO: Handle the case where the trend is not found / error occurs
-
-        values.append(interest_over_time_df[trend].sum())
+        try:
+            values.append(interest_over_time_df[trend].sum())
+        except KeyError:
+            # If the trend is not in the interest_over_time_df, it means it has no data and we can ignore it
+            values.append(999999)
 
     return int(2 / ((1 / values[0]) + (1 / values[1])))
 
 def get_current_trends() -> list[str]:
-    pytrend = TrendReq(hl='en-US', tz=360)
-    trends = pytrend.trending_searches()[0].tolist()
+    try:
+        pytrend = TrendReq(hl='en-US', tz=360)
+    except Exception as e:
+        raise Exception(f"Error while connecting to Google Trends: {e}")
+    try:
+        trends = pytrend.trending_searches()
+        trends = trends[0].tolist()
+    except Exception as e:
+        raise Exception(f"Error while fetching current trends: {e}")
 
     assert isinstance(trends, list), f"Expected a list but got {type(trends)}"
 

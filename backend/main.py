@@ -18,7 +18,7 @@ def get_topics(num_topics: int):
         topics = get_social_media_topics("google", num_topics=num_topics)
     except Exception as e:
         return {"error": str(e)}, 500
-
+    
     if not topics:
         return {"error": "No topics found."}, 500
 
