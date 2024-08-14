@@ -17,7 +17,7 @@ function App() {
         // Assume the response structure is as described and extract topics
         const topics = data[0].topics.map(topic => ({
           text: topic.name,
-          value: Math.floor(Math.random() * 100) + 50 // Assigning random values for demonstration
+          value: topic.popularity
         }));
         setWords(topics);
       } catch (error) {
@@ -45,9 +45,16 @@ function App() {
     backgroundColor: 'black', // WordCloud background color
   };
 
+  const callbacks = {
+    onWordClick: word => {
+      const googleSearchUrl = `https://www.google.com/search?q=${encodeURIComponent(word.text)}`;
+      window.open(googleSearchUrl, '_blank');
+    },
+  };
+
   return (
     <div style={{ height: '100vh', width: '100%', display: 'flex', justifyContent: 'center', alignItems: 'center', backgroundColor: 'black' }}>
-      <WordCloud words={words} options={options} />
+      <WordCloud words={words} options={options} callbacks={callbacks} />
     </div>
   );
 }
