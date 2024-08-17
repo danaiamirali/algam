@@ -1,6 +1,7 @@
 ../algamlib/
 annotated-types==0.7.0
 anyio==4.4.0
+APScheduler==3.10.4
 cffi==1.17.0
 charset-normalizer==3.3.2
 click==8.1.7
@@ -16,6 +17,7 @@ pandas==2.2.2
 pluggy==1.5.0
 praw==7.7.1
 prawcore==2.4.0
+psycopg2==2.9.9
 pycparser==2.22
 pydantic==2.8.2
 pydantic_core==2.20.1
