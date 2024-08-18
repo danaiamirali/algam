@@ -14,6 +14,7 @@ function App() {
           throw new Error('Network response was not ok');
         }
         const data = await response.json();
+        console.log('Fetched words:', data);
         // Assume the response structure is as described and extract topics
         const topics = data[0].topics.map(topic => ({
           text: topic.name,
