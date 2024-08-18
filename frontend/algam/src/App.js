@@ -9,7 +9,7 @@ function App() {
     // Function to fetch words data
     const fetchWords = async () => {
       try {
-        const response = await fetch('http://octopus-app-myw9k.ondigitalocean.app/topics/25');
+        const response = await fetch('https://octopus-app-myw9k.ondigitalocean.app/topics/25');
         if (!response.ok) {
           throw new Error('Network response was not ok');
         }
