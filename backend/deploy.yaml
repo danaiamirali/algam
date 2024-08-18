@@ -1,0 +1,47 @@
+alerts:
+- rule: DEPLOYMENT_FAILED
+- rule: DOMAIN_FAILED
+envs:
+- key: DB_NAME
+  scope: RUN_AND_BUILD_TIME
+  value: defaultdb
+- key: DB_USER
+  scope: RUN_AND_BUILD_TIME
+  value: doadmin
+- key: DB_PASSWORD
+  scope: RUN_AND_BUILD_TIME
+  type: SECRET
+  value: EV[1:9t5hz5PhGilgR5/H6Wr8+lJrIid3uvP2:L+yGVV/h3EKeS8yqmmzNKJUfL7RVlYV8ris9jXyl2X+NzP5mlR6Ifw==]
+- key: DB_HOST
+  scope: RUN_AND_BUILD_TIME
+  value: algam-db-do-user-17503271-0.g.db.ondigitalocean.com
+- key: DB_PORT
+  scope: RUN_AND_BUILD_TIME
+  value: "25060"
+features:
+- buildpack-stack=ubuntu-22
+ingress:
+  rules:
+  - component:
+      name: algam-backend
+    match:
+      path:
+        prefix: /
+name: algam-api
+region: nyc
+services:
+- environment_slug: python
+  envs:
+  - key: DATABASE_URL
+    scope: RUN_TIME
+    value: ${algamdb.DATABASE_URL}
+  github:
+    branch: main
+    deploy_on_push: true
+    repo: danaiamirali/algam
+  http_port: 8080
+  instance_count: 1
+  instance_size_slug: apps-s-1vcpu-0.5gb
+  name: algam-backend
+  run_command: python3 -m uvicorn main:app --host 0.0.0.0 --port 8080
+  source_dir: backend

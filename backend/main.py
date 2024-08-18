@@ -76,7 +76,7 @@ def fetch_and_store_trending_topics():
     cur = conn.cursor()
 
     # Insert topics into the database
-    for topic in topics:
+    for topic in topics[::-1]:
         cur.execute(
             "INSERT INTO trending_topics (name, popularity, fetched_at) VALUES (%s, %s, %s)",
             (topic.name, topic.popularity, datetime.now())
