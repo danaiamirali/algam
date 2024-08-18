@@ -110,9 +110,11 @@ def get_topics(num_topics: int, db=Depends(get_db_connection)):
         topics = cur.fetchall()
         cur.close()
         db.close()
+
         if not topics:
             return {"error": "No topics found."}, 500
-        return [{"name": topic[0], "popularity": topic[1]} for topic in topics], 200
+
+        return {"topics" : [{"name": topic[0], "popularity": topic[1]} for topic in topics]}, 200
     except Exception as e:
         return {"error": str(e)}, 500
 
