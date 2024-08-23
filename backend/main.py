@@ -78,7 +78,10 @@ def fetch_and_store_trending_topics():
     # Insert topics into the database
     for topic in topics[::-1]:
         cur.execute(
-            "INSERT INTO trending_topics (name, popularity, fetched_at) VALUES (%s, %s, %s)",
+            """INSERT INTO trending_topics (name, popularity, fetched_at) 
+            VALUES (%s, %s, %s)
+            ON CONFLICT (name, fetched_at) DO NOTHING
+            """,
             (topic.name, topic.popularity, datetime.now())
         )
 
@@ -104,7 +107,9 @@ def get_topics(num_topics: int, db=Depends(get_db_connection)):
     try:
         cur = db.cursor()
         cur.execute(
-            "SELECT name, popularity FROM trending_topics ORDER BY fetched_at DESC, popularity DESC LIMIT %s",
+            """SELECT DISTINCT ON (name) name, popularity FROM trending_topics
+            ORDER BY fetched_at DESC, popularity DESC LIMIT %s
+            """,
             (num_topics,)
         )
         topics = cur.fetchall()
