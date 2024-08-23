@@ -107,9 +107,7 @@ def get_topics(num_topics: int, db=Depends(get_db_connection)):
     try:
         cur = db.cursor()
         cur.execute(
-            """SELECT DISTINCT ON (name) name, popularity FROM trending_topics
-            ORDER BY fetched_at DESC, popularity DESC LIMIT %s
-            """,
+            "SELECT name, popularity FROM trending_topics ORDER BY fetched_at DESC, popularity DESC LIMIT %s",
             (num_topics,)
         )
         topics = cur.fetchall()
