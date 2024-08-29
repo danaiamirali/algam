@@ -1,6 +1,8 @@
 # algam
 Combining hot topics across different social media platforms into one. 
 
+![alt text](img/algam.png)
+
 The project is comprised of three components:
 1. A Python Package, `algamlib`, for fetching hot topics from social media platforms
 2. A FastAPI + Postgres Backend, using `algamlib` on a timer to update a running database of trending topics over time and serving these topics on an API route
