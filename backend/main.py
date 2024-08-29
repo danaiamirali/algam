@@ -23,7 +23,7 @@ app.add_middleware(
     allow_headers=["*"],  # Allows all headers
 )
 
-MAX_TOPICS = 30  # Maximum number of topics to fetch
+MAX_TOPICS = 25  # Maximum number of topics to fetch
 
 def get_db_connection():
     conn = psycopg2.connect(
@@ -62,41 +62,47 @@ def init_db():
     conn.close()
 
 def fetch_and_store_trending_topics():
+    """Job for scheduler to fetch current trending topics and store them in the database."""
     try:
-        topics = get_social_media_topics("google", num_topics=MAX_TOPICS)  # Fetch top X topics (s.t. any X > num_topics)
+        try:
+            topics = get_social_media_topics("google", num_topics=MAX_TOPICS)  # Fetch top X topics (s.t. any X > num_topics)
+        except Exception as e:
+            print(f"Error fetching topics: {e}")
+            return
+
+        if not topics:
+            print("No topics fetched.")
+            return
+
+        conn = get_db_connection()
+        cur = conn.cursor()
+
+        # Insert topics into the database
+        for topic in topics[::-1]:
+            cur.execute(
+                """INSERT INTO trending_topics (name, popularity, fetched_at) 
+                VALUES (%s, %s, %s)
+                ON CONFLICT (name, fetched_at) DO NOTHING
+                """,
+                (topic.name, topic.popularity, datetime.now())
+            )
+
+        conn.commit()
+        cur.close()
+        conn.close()
     except Exception as e:
-        print(f"Error fetching topics: {e}")
-        return
-
-    if not topics:
-        print("No topics fetched.")
-        return
-
-    conn = get_db_connection()
-    cur = conn.cursor()
-
-    # Insert topics into the database
-    for topic in topics[::-1]:
-        cur.execute(
-            """INSERT INTO trending_topics (name, popularity, fetched_at) 
-            VALUES (%s, %s, %s)
-            ON CONFLICT (name, fetched_at) DO NOTHING
-            """,
-            (topic.name, topic.popularity, datetime.now())
-        )
-
-    conn.commit()
-    cur.close()
-    conn.close()
+        print(f"Scheduler job (fetch_and_store_trending_topics) failed --- \n{e}")
 
 # Schedule the periodic task
 scheduler = BackgroundScheduler()
-scheduler.add_job(fetch_and_store_trending_topics, 'interval', minutes=10)
+scheduler.add_job(fetch_and_store_trending_topics, 'interval', minutes=30)
 
 @app.on_event("startup")
 def on_startup():
     init_db()
+    print("Starting up scheduler...")
     scheduler.start()
+    print("Scheduler started.")
 
 # Route to get the top n trending topics from the database
 @app.get("/topics/{num_topics}")
